@@ -1,49 +1,32 @@
-#include <stdint.h>
-
 #include "image.h"
-#include "draw.h"
+
 #include "framebuffer.h"
 
 void thr_image_draw(uint32_t x,
                     uint32_t y,
-                    const uint32_t *image,
                     uint32_t width,
-                    uint32_t height)
+                    uint32_t height,
+                    const uint32_t *pixels)
 {
-    for (uint32_t yy = 0; yy < height; yy++)
+    for (uint32_t py = 0; py < height; py++)
     {
-        for (uint32_t xx = 0; xx < width; xx++)
+        for (uint32_t px = 0; px < width; px++)
         {
-            uint32_t pixel = image[(yy * width) + xx];
+            uint32_t color =
+                pixels[py * width + px];
 
             /*
-             * Pour la V1 :
-             * 0x00000000 = pixel transparent.
+             * Si le pixel est totalement transparent,
+             * on ne dessine rien.
              */
-            if (pixel != 0x00000000)
-            {
-                thr_draw_pixel(
-                    x + xx,
-                    y + yy,
-                    pixel
-                );
-            }
+            if ((color >> 24) == 0)
+                continue;
+
+            thr_fb_put_pixel(
+                x + px,
+                y + py,
+                color
+            );
         }
     }
-}
-
-void thr_image_draw_center(const uint32_t *image,
-                           uint32_t width,
-                           uint32_t height)
-{
-    uint32_t x = (thr_fb_width() - width) / 2;
-    uint32_t y = (thr_fb_height() - height) / 2;
-
-    thr_image_draw(
-        x,
-        y,
-        image,
-        width,
-        height
-    );
 }
