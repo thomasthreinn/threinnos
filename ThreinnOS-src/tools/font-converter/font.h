@@ -2,8 +2,7 @@
 #define THR_FONT_H
 
 #include <stdint.h>
-
-typedef struct stbtt_fontinfo stbtt_fontinfo;
+#include "stb_truetype.h"
 
 typedef struct
 {
@@ -15,16 +14,9 @@ typedef struct
 
 } Font;
 
-/*
- * Charge entièrement une police en mémoire
- * puis initialise stb_truetype.
- */
 int font_load(const char *filename,
               Font *font);
 
-/*
- * Libère la mémoire occupée par la police.
- */
 void font_free(Font *font);
 
 #endif

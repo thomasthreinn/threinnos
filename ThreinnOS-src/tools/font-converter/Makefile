@@ -4,7 +4,7 @@ CFLAGS = -O2 -Wall -Wextra -std=c11
 
 LDFLAGS = -lm
 
-OBJ = main.o font.o
+OBJ = main.o font.o glyph.o writer.o
 
 font-converter: $(OBJ)
 	$(CC) $(OBJ) $(LDFLAGS) -o font-converter
