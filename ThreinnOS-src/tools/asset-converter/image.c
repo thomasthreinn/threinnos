@@ -33,13 +33,23 @@ int image_load(const char *filename, Image *image)
         return -1;
     }
 
-    memcpy(image->pixels,
-           data,
-           width * height * sizeof(uint32_t));
+    for (uint32_t i = 0; i < (uint32_t)(width * height); i++)
+{
+    uint8_t r = data[i * 4 + 0];
+    uint8_t g = data[i * 4 + 1];
+    uint8_t b = data[i * 4 + 2];
+    uint8_t a = data[i * 4 + 3];
 
-    stbi_image_free(data);
+    image->pixels[i] =
+        ((uint32_t)a << 24) |
+        ((uint32_t)r << 16) |
+        ((uint32_t)g << 8)  |
+        (uint32_t)b;
+}
 
-    return 0;
+stbi_image_free(data);
+
+return 0;
 }
 
 void image_free(Image *image)

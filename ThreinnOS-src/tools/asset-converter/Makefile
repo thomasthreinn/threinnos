@@ -2,16 +2,15 @@ CC = gcc
 
 CFLAGS = -O2 -Wall -Wextra -std=c11
 
-OBJ = \
-main.o \
-image.o \
-writer.o
+LDFLAGS = -lm
+
+OBJ = main.o image.o writer.o resize.o
 
 asset-converter: $(OBJ)
-	$(CC) $(OBJ) -o asset-converter
+	$(CC) $(OBJ) $(LDFLAGS) -o asset-converter
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o asset-converter
+	rm -f $(OBJ) asset-converter
