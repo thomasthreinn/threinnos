@@ -2,10 +2,12 @@ CC = gcc
 
 CFLAGS = -O2 -Wall -Wextra -std=c11
 
-OBJ = main.o
+LDFLAGS = -lm
+
+OBJ = main.o font.o
 
 font-converter: $(OBJ)
-	$(CC) $(OBJ) -o font-converter
+	$(CC) $(OBJ) $(LDFLAGS) -o font-converter
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
